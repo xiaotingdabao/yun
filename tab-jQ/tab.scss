@@ -1,0 +1,82 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#tab_list{
+    margin-top: 20px;
+    table{
+        border: 1px solid #000;
+        border-collapse: collapse;
+        width: 100%;
+        color: #000;
+        thead{
+            background-color: #58bc58;
+            color: #fff;
+            font-size: 15px;
+            tr{
+            td{
+                text-align: center;
+                border: 1px solid #ddd;
+                padding: 10px 5px;   
+            }
+        }
+        }
+        tbody{
+            tr:nth-child(2n) {
+                background-color: #fff;
+            }
+            tr:nth-child(2n+1) {
+                background-color: #f8ebd7;
+            }
+            tr{
+                td{
+                    text-align: center;
+                    border: 1px solid #ddd;
+                    padding: 5px 5px;   
+                    a {
+                        text-decoration: none;
+                    }
+                    .add{
+                        display: inline-block;
+                        background-color: #2db7f5;
+                        color: #fff;
+                        width: 50px;
+                    }
+                    .cop{
+                        display: inline-block;
+                        background-color: #58bc58;
+                        color: #fff;
+                        width: 50px;
+                    }
+                    .del{
+                        display: inline-block;
+                        background-color: rgb(253, 129, 129);
+                        color: #fff;
+                        width: 50px;
+                    }
+                }
+            }
+            .active{
+                background:rgb(228, 152, 102) !important;
+            }
+        }
+    }
+    .addone{
+        background-color: #58bc58;
+        margin-top: 20px;
+        padding: 10px 10px;
+        color: #fff;
+        label{
+            margin: 0px 5px;
+        }
+        #btn{
+            width: 70px;
+            background-color: #fff;
+        }
+    }
+}
+
+
+
+
+

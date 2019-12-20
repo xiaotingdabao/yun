@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Tab</title>
+        <link type="text/css" href="./tab.css" rel="stylesheet" />
+    </head>
+
+    <body>
+        <div id="tab_list">
+            <table>
+                <thead>
+                    <tr style="text-align: center;">
+                        <td rowspan="2">
+                            <input class="checkall" value="0" name="id" type="checkbox" />全选
+                        </td>
+                        <td rowspan="2">
+                            序号
+                        </td>
+                        <td rowspan="2">
+                            店家
+                        </td>
+                        <td rowspan="2">
+                            等级
+                        </td>
+                        <td rowspan="2">
+                            系列
+                        </td>
+                        <td rowspan="2">
+                            联系方式
+                        </td>
+                        <td rowspan="2">
+                            标签
+                        </td>
+                        <td rowspan="2">
+                            操作
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="addone">
+                <label for="row1">店家：</label><input type="text" id="name" autocomplete="off">
+                <label for="col2">等级：</label><input type="text" id="level">
+                <label for="col3">系列：</label><input type="text" id="depart">
+                <label for="col2">联系方式：</label><input type="text" id="phone">
+                <label for="col3">标签：</label><input type="text" id="tags">
+                <input type="button" value="添加" id="btn">
+            </div>
+        </div>
+    </body>
+
+</html>
+<script src="./jquery-1.10.1.min.js"></script>
+<script>
+    /* **
+     * 表格增删改
+     ** */
+    $(function () {
+        //数据
+        var obj = [{
+                key: '1',
+                name: '隆昌美丽宝宝',
+                level: '一级',
+                depart: '母婴',
+                phone: '14769225684',
+                tags: ['实惠', '舒适'],
+            },
+            {
+                key: '2',
+                name: '沃尔斯',
+                level: '一级',
+                depart: '母婴',
+                phone: '13609012568',
+                tags: ['量多', '款式多'],
+            },
+            {
+                key: '3',
+                name: '小红马',
+                level: '二级',
+                depart: '母婴',
+                phone: '15632004859',
+                tags: ['专业', '款式多'],
+            },
+            {
+                key: '4',
+                name: '贝贝',
+                level: '一级',
+                depart: '母婴',
+                phone: '15637884859',
+                tags: ['好吃', '专业'],
+            },
+            {
+                key: '5',
+                name: '奶爹',
+                level: '二级',
+                depart: '母婴',
+                phone: '13632004859',
+                tags: ['精品', '高品质'],
+            },
+            {
+                key: '6',
+                name: '优芽贝贝',
+                level: '二级',
+                depart: '母婴',
+                phone: '13632004859',
+                tags: ['随时购', '省钱'],
+            },
+            {
+                key: '7',
+                name: '蜜芽',
+                level: '二级',
+                depart: '母婴',
+                phone: '13632004859',
+                tags: ['正品低价', '价格优惠'],
+            },
+            {
+                key: '8',
+                name: '婴友智能供应商',
+                level: '二级',
+                depart: '母婴',
+                phone: '13632004859',
+                tags: ['好用', '任务管理'],
+            },
+            {
+                key: '9',
+                name: '宝宝湾',
+                level: '二级',
+                depart: '母婴',
+                phone: '13600004859',
+                tags: ['优质', '厂家直供'],
+            },
+            {
+                key: '10',
+                name: '小飞象母婴生活用品',
+                level: '二级',
+                depart: '母婴',
+                phone: '13600004859',
+                tags: ['智能推荐', '厂家直供'],
+            }
+        ];
+
+        var demoObj = {
+
+            //深拷贝
+            copyData: function (array) {
+                var newarray = array.constructor === Array ? [] : {};
+                if (typeof array !== 'object') {
+                    return;
+                }
+                for (var i in array) {
+                    newarray[i] = typeof array[i] === 'object' ? demoObj.copyData(array[i]) : array[i];
+                }
+                return newarray;
+            },
+
+            //渲染表格
+            initData: function (data) {
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    html += `<tr>
+                        <td>
+                            <input class="checkitem" value="0" name="id" type="checkbox"/>
+                        </td>
+                        <td class="ip" contenteditable="false">${data[i].key}</td>
+                        <td contenteditable="false">${data[i].name}</td>
+                        <td contenteditable="false">${data[i].level}</td>
+                        <td contenteditable="false">${data[i].depart}</td>
+                        <td contenteditable="false">${data[i].phone}</td>
+                        <td contenteditable="false">${data[i].tags[0]}、${data[i].tags[1]}</td>
+                        <td>
+                          <a class="add" href="###">编辑</a>
+                          <a class="cop" href="###">复制</a>
+                          <a class="del" href="###">删除</a>
+                          </td>
+                   </tr>`;
+                }
+                $('tbody').html(html);
+            },
+
+            //添加数据动态插入
+            insertData: function () {
+
+                //点击触发
+                $("#btn").on("click", function () {
+                    var _name = $.trim($("#name").val());
+                    var _level = $.trim($("#level").val());
+                    var _depart = $.trim($("#depart").val());
+                    var _phone = $.trim($("#phone").val());
+                    var _tags = $.trim($("#tags").val());
+
+                    if (_name && _level && _depart && _phone && _tags) {
+                        //非空
+                        var newHtml = `<tr>
+                                          <td>
+                                            <input onclick="checkitem()" value="0" name="id" type="checkbox"/>
+                                            </td>
+                                          <td class="ip" contenteditable="false"></td>
+                                          <td contenteditable="false">${_name}</td>
+                                          <td contenteditable="false">${_level}</td>
+                                          <td contenteditable="false">${_depart}</td>
+                                          <td contenteditable="false">${_phone}</td>
+                                          <td contenteditable="false">${_tags}</td>
+                                          <td>
+                                            <a class="add" href="###">编辑</a>
+                                            <a class="cop" href="###">复制</a>
+                                            <a class="del" href="###">删除</a>
+                                          </td>
+                                      </tr>`;
+                        $('tbody').append(newHtml);
+                        demoObj.addID();
+                        demoObj.optionData();
+                        demoObj.checkAll();
+                        // demoObj.isCheck();
+                        demoObj.light();
+                    } else {
+                        //其他有空
+                        alert("请您完善信息再添加！");
+                    }
+                })
+            },
+
+            //删除、复制、编辑
+            optionData: function () {
+
+                //点击按钮触发
+                $("tbody").click(function (event) {
+                    var $target = $(event.target);
+
+                    //删除
+                    if ($target.is(".del")) {
+                        $target.parent().parent().remove();
+                    }
+
+                    //复制
+                    if ($target.is(".cop")) {
+                        $target.parent().parent().clone(true).insertAfter($target.parent()
+                            .parent());
+                        demoObj.addID();
+                        event.stopPropagation();
+                    }
+
+                    //编辑
+                    if ($target.is(".add")) {
+
+                        //可编辑状态
+                        $target.parent().parent().children("td").attr("contenteditable",
+                            "true");
+                        event.stopPropagation();
+                        $target[0].edit = true;
+
+                        //失去焦点不可编辑
+                        $target.parent().parent().children("td").focusout(function () {}).blur(
+                            function () {
+                                $target[0].edit = false;
+                                $target.parent().parent().children("td").attr(
+                                    "contenteditable", "false");
+                            })
+                    }
+                })
+            },
+
+            //动态渲染序号
+            addID: function () {
+                var ips = $(".ip");
+                for (var i = 0; i < ips.length; i++) {
+                    ips[i].innerHTML = i + 1;
+                }
+            },
+
+            //全选控制
+            checkAll: function () {
+                $(".checkall").click(function () {
+                    for (var i = 0; i < $(".checkitem").length; i++) {
+                        var checkofAll = $(".checkall").prop("checked");
+                        $(".checkitem").eq(i).prop("checked", checkofAll);
+                        if (checkofAll) {
+                            $("tbody tr").eq(i).addClass("active");
+                        } else {
+                            $("tbody tr").eq(i).removeClass("active");
+                        }
+                    }
+                })
+            },
+
+            //反控制全选
+            isCheck: function () {
+                let isOk = Array.from(document.querySelectorAll('.checkitem')).every((item) => {
+                    return item.checked;
+                })
+                console.log(isOk);
+                $(".checkall").prop("checked", isOk);
+            },
+
+            //选中高亮
+            light: function () {
+                for (var i = 0; i < $("tbody tr").length; i++) {
+                    $(`tbody tr:eq(${i})`)[0].isok = false;
+                    $("tbody tr").eq(i).click(function () {
+                        if (this.querySelector('.add').edit) return;
+                        if (this.isok) {
+                            $(this).removeClass("active");
+                        } else {
+                            $(this).addClass("active");
+                        }
+                        $(this).children(":first").children(":first")[0].checked = !this.isok;
+                        this.isok = !this.isok;
+                        demoObj.isCheck();
+                    })
+                }
+            }
+
+        };
+
+        //调用
+        var data = demoObj.copyData(obj);
+        demoObj.initData(obj);
+        demoObj.insertData();
+        demoObj.optionData();
+        demoObj.addID();
+        demoObj.checkAll();
+        // demoObj.isCheck();
+        demoObj.light();
+    });
+
+</script>

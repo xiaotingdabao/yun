@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#tab_list {
+  margin-top: 20px;
+}
+
+#tab_list table {
+  border: 1px solid #000;
+  border-collapse: collapse;
+  width: 100%;
+  color: #000;
+}
+
+#tab_list table thead {
+  background-color: #58bc58;
+  color: #fff;
+  font-size: 15px;
+}
+
+#tab_list table thead tr td {
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 10px 5px;
+}
+
+#tab_list table tbody tr:nth-child(2n) {
+  background-color: #fff;
+}
+
+#tab_list table tbody tr:nth-child(2n+1) {
+  background-color: #f8ebd7;
+}
+
+#tab_list table tbody tr td {
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 5px 5px;
+}
+
+#tab_list table tbody tr td a {
+  text-decoration: none;
+}
+
+#tab_list table tbody tr td .add {
+  display: inline-block;
+  background-color: #2db7f5;
+  color: #fff;
+  width: 50px;
+}
+
+#tab_list table tbody tr td .cop {
+  display: inline-block;
+  background-color: #58bc58;
+  color: #fff;
+  width: 50px;
+}
+
+#tab_list table tbody tr td .del {
+  display: inline-block;
+  background-color: #fd8181;
+  color: #fff;
+  width: 50px;
+}
+
+#tab_list table tbody .active {
+  background: #e49866 !important;
+}
+
+#tab_list .addone {
+  background-color: #58bc58;
+  margin-top: 20px;
+  padding: 10px 10px;
+  color: #fff;
+}
+
+#tab_list .addone label {
+  margin: 0px 5px;
+}
+
+#tab_list .addone #btn {
+  width: 70px;
+  background-color: #fff;
+}
